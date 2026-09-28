@@ -55,7 +55,7 @@ class PostgraduateStudent extends Student {
 }
 
 // Main class
-public class StudentInheritanceSimple {
+public class StudentDemo {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
