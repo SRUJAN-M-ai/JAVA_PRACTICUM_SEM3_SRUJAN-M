@@ -1,1 +1,84 @@
+import java.util.Scanner;
+
+// Interface
+interface SmartDevice {
+    void turnOn();
+    void turnOff();
+}
+
+// Smart Fan
+class SmartFan implements SmartDevice {
+
+    public void turnOn() {
+        System.out.println("Smart Fan turned ON.");
+    }
+
+    public void turnOff() {
+        System.out.println("Smart Fan turned OFF.");
+    }
+}
+
+// Smart Light
+class SmartLight implements SmartDevice {
+
+    public void turnOn() {
+        System.out.println("Smart Light turned ON.");
+    }
+
+    public void turnOff() {
+        System.out.println("Smart Light turned OFF.");
+    }
+}
+
+// Smart AC
+class SmartAC implements SmartDevice {
+
+    public void turnOn() {
+        System.out.println("Smart AC turned ON.");
+    }
+
+    public void turnOff() {
+        System.out.println("Smart AC turned OFF.");
+    }
+}
+
+// Main Class
+public class SmartDeviceDemo {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Choose a device to control:");
+        System.out.println("1. Smart Fan");
+        System.out.println("2. Smart Light");
+        System.out.println("3. Smart AC");
+
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
+
+        SmartDevice device;
+
+        if (choice == 1) {
+            device = new SmartFan();
+        } 
+        else if (choice == 2) {
+            device = new SmartLight();
+        } 
+        else if (choice == 3) {
+            device = new SmartAC();
+        } 
+        else {
+            System.out.println("Invalid choice.");
+            sc.close();
+            return;
+        }
+
+        // Calling interface methods
+        device.turnOn();
+        device.turnOff();
+
+        sc.close();
+    }
+}
 
