@@ -1,0 +1,134 @@
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Scanner;
+
+public class BookLookupSystem {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        Hashtable<Integer, String> books = new Hashtable<>();
+
+        int choice=0;
+
+        do {
+            System.out.println("\n===== BOOK LOOKUP SYSTEM =====");
+            System.out.println("1. Add a Book");
+            System.out.println("2. Search a Book");
+            System.out.println("3. Remove a Book");
+            System.out.println("4. Display All Books");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+            if (!sc.hasNextInt()) {
+                System.out.println("Invalid choice. Please select a valid option.");
+                sc.nextLine();
+                continue;
+            }
+
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+
+                case 1:
+                    System.out.print("Enter Book ID: ");
+
+                    if (!sc.hasNextInt()) {
+                        System.out.println("Invalid Book ID.");
+                        sc.nextLine();
+                        break;
+                    }
+
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    if (id <= 0) {
+                        System.out.println("Invalid Book ID.");
+                        break;
+                    }
+
+                    System.out.print("Enter Book Title: ");
+                    String title = sc.nextLine().trim();
+
+                    if (title.isEmpty()) {
+                        System.out.println("Book title cannot be empty.");
+                        break;
+                    }
+
+                    if (books.containsKey(id)) {
+                        System.out.println("Book ID already exists.");
+                    } else {
+                        books.put(id, title);
+                        System.out.println("Book added successfully.");
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Enter Book ID to search: ");
+
+                    if (!sc.hasNextInt()) {
+                        System.out.println("Invalid Book ID.");
+                        sc.nextLine();
+                        break;
+                    }
+
+                    id = sc.nextInt();
+                    sc.nextLine();
+
+                    if (books.containsKey(id)) {
+                        System.out.println("Book ID: " + id);
+                        System.out.println("Book Title: " + books.get(id));
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter Book ID to remove: ");
+
+                    if (!sc.hasNextInt()) {
+                        System.out.println("Invalid Book ID.");
+                        sc.nextLine();
+                        break;
+                    }
+
+                    id = sc.nextInt();
+                    sc.nextLine();
+
+                    if (books.containsKey(id)) {
+                        books.remove(id);
+                        System.out.println("Book removed successfully.");
+                    } else {
+                        System.out.println("Book not found. Unable to remove.");
+                    }
+                    break;
+
+                case 4:
+                    if (books.isEmpty()) {
+                        System.out.println("No books available in the library.");
+                    } else {
+                        System.out.println("\nBooks in the Library:");
+
+                        for (Map.Entry<Integer, String> book
+                                : books.entrySet()) {
+                            System.out.println("Book ID: " + book.getKey()
+                                    + ", Book Title: " + book.getValue());
+                        }
+                    }
+                    break;
+
+                case 5:
+                    System.out.println("Exiting Book Lookup System.");
+                    break;
+
+                default:
+                    System.out.println(
+                            "Invalid choice. Please select a valid option.");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
