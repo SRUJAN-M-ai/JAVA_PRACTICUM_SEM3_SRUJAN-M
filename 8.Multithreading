@@ -1,0 +1,98 @@
+import java.util.Scanner;
+
+// Ticket Booking class
+class TicketBooking {
+    String passengerName;
+    String bookingStatus;
+
+    TicketBooking(String passengerName) {
+        this.passengerName = passengerName;
+        this.bookingStatus = "Confirmed";
+    }
+
+    void displayBooking() {
+        System.out.println("Passenger Name: " + passengerName);
+        System.out.println("Booking Status: " + bookingStatus);
+        System.out.println("Thread Name: " + Thread.currentThread().getName());
+        System.out.println();
+    }
+}
+
+// Creating thread by extending Thread
+class BookingThread extends Thread {
+    TicketBooking booking;
+
+    BookingThread(TicketBooking booking) {
+        this.booking = booking;
+    }
+
+    public void run() {
+        booking.displayBooking();
+    }
+}
+
+// Creating thread using Runnable
+class BookingRunnable implements Runnable {
+    TicketBooking booking;
+
+    BookingRunnable(TicketBooking booking) {
+        this.booking = booking;
+    }
+
+    public void run() {
+        booking.displayBooking();
+    }
+}
+
+// Main class
+public class TicketBookingMultithreadingDemo {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of passengers: ");
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        TicketBooking[] bookings = new TicketBooking[n];
+        Thread[] threads = new Thread[n];
+
+        // Take all inputs first
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter passenger name " + (i + 1) + ": ");
+            String name = sc.nextLine();
+
+            bookings[i] = new TicketBooking(name);
+        }
+
+        System.out.println("\n--- Booking Details ---");
+
+        // Create threads after taking all input
+        for (int i = 0; i < n; i++) {
+
+            if (i % 2 == 0) {
+                // Using Thread class
+                threads[i] = new BookingThread(bookings[i]);
+            } else {
+                // Using Runnable interface
+                BookingRunnable runnable = new BookingRunnable(bookings[i]);
+                threads[i] = new Thread(runnable);
+            }
+
+            threads[i].start();
+        }
+
+        // Wait for all threads
+        for (int i = 0; i < n; i++) {
+            try {
+                threads[i].join();
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted.");
+            }
+        }
+
+        System.out.println("All passenger booking requests processed successfully.");
+
+        sc.close();
+    }
+}
